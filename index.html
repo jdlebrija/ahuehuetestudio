@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<!-- AHUEHUETE.STUDIO — E3 FINAL -->
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#20261e" />
+  <title>AHUEHUETE.STUDIO — Paisajismo Artístico</title>
+  <link rel="icon" type="image/png" href="favicon-96x96.png?v=2026" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2026" />
+  <link rel="shortcut icon" href="favicon.ico?v=2026" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=2026" />
+  <meta name="apple-mobile-web-app-title" content="AHUEHUETE.STUDIO" />
+  <link rel="manifest" href="site.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Nunito:wght@700&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ══════════════════════════════════════════
+       PALETTE E3
+       --bosque      #1B4A34  primary green · statement
+       --lima        #A4AE4D  signature accent (firma)
+       --tierra      #8B6A3E  warm earth · Entorno/Arte/Evo
+       --salvia      #6B7F6B  muted sage · Nosotros
+       --arena       #F2F2F0  base background
+       --obsidiana   #1C1C1E  near-black · Contacto · text on salvia
+       --bosque-medio #2E4739 mid-point · Servicios
+       --morado      #5E5C7B  purple · Nuestra Práctica
+       --acero       #5C7084  footer (hex direct)
+       --gris        #8a8a80  secondary labels
+    ══════════════════════════════════════════ */
+    :root {
+      --bosque:       #1B4A34;
+      --lima:         #A4AE4D;
+      --tierra:       #8B6A3E;
+      --salvia:       #6B7F6B;
+      --arena:        #F2F2F0;
+      --obsidiana:    #1C1C1E;
+      --bosque-medio: #2E4739;
+      --morado:       #5E5C7B;
+      --gris:         #8a8a80;
+      --body-size:    15px;
+      --small-size:   13px;
+      --label-size:   9px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: #20261e;
+    }
+    body {
+      background-color: #1C1C1E;
+      color: var(--obsidiana);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      min-height: 100%;
+    }
+
+    /* ══════════════════════════════════════════
+       NAV
+    ══════════════════════════════════════════ */
+    nav {
+      position: absolute; top: 0; left: 0; right: 0; z-index: 500;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 32px 56px;
+      background: transparent;
+    }
+    .logo {
+      font-family: 'Avenir','Avenir Next','Nunito',sans-serif;
+      font-weight: 700; font-size: 15px; letter-spacing: .12em;
+      text-decoration: none; color: var(--arena); transition: color .3s;
+    }
+    .logo:hover { color: var(--lima); }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--arena);
+      font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+      font-weight: 400; position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -2px; left: 0;
+      width: 0; height: 1px; background: var(--lima); transition: width .35s ease;
+    }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ══════════════════════════════════════════
+       HERO — imagen estática · hero.jpg
+       Para activar video: ver manual-codigo.docx §6
+    ══════════════════════════════════════════ */
+    #hero-section {
+      height: 100vh; position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-bg {
+      position: absolute; inset: -80px 0;
+      background-color: #20261e;
+      background-size: cover; background-position: center;
+      z-index: 0; will-change: transform;
+    }
+    .hero-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.32); z-index: 1; }
+    .hero-logo-wrap {
+      position: relative; z-index: 2; text-align: center;
+      animation: heroFadeIn 1.4s ease .5s both;
+    }
+    .hero-logo-img { width: clamp(184px,28.9vw,394px); display: block; margin: 0 auto; }
+    @keyframes heroFadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ══════════════════════════════════════════
+       SHARED SECTION TITLE — Nunito Bold, lima
+    ══════════════════════════════════════════ */
+    .section-tag-row { display: flex; align-items: flex-start; margin-bottom: 64px; }
+    #about .section-tag-row { padding-top: 0; justify-content: flex-start; }
+    #about .about-center { padding-bottom: 0; }
+    .section-tag {
+      display: inline-block; background: none; color: var(--lima);
+      font-family: 'Avenir','Avenir Next','Nunito',sans-serif; font-weight: 700;
+      font-size: clamp(18px,1.8vw,26px); letter-spacing: .1em;
+      text-transform: uppercase; padding: 0; line-height: 1;
+    }
+
+    /* ══════════════════════════════════════════
+       NOSOTROS — salvia bg
+       Body text: obsidiana 500 15px
+       Phrase "CULTIVAMOS…": lima 700 clamp(13–17px)
+       Both at same font size as Nuestra Práctica
+    ══════════════════════════════════════════ */
+    #about {
+      padding: 112px 56px;
+      background: #20261E;
+    }
+
+    .about-center { max-width: 780px; margin: 0 auto; text-align: center; }
+    /* Body paragraphs — homologated with disclaimer */
+    .about-center p {
+      font-size: var(--body-size); line-height: 2;
+      color: var(--arena); margin-bottom: 20px; font-weight: 500;
+    }
+    /* Phrase — uppercase, lima, 700 bold */
+    .about-center h2 {
+      font-family: 'Avenir','Avenir Next','Nunito',sans-serif;
+      font-weight: 700; font-size: 15px; letter-spacing: .12em;
+      line-height: 1.4; text-transform: uppercase;
+      color: var(--lima); margin-top: 72px; margin-bottom: 0;
+    }
+
+    /* ══════════════════════════════════════════
+       ENTORNO | ARTE | EVOLUCIÓN — tierra bg
+       Crema text resting · Obsidiana on hover
+       Separators: obsidiana short lines
+    ══════════════════════════════════════════ */
+    #pillars { width: 100%; }
+    .pillar-row { display: flex; background: var(--tierra); width: 100%; }
+    .pillar {
+      flex: 1; padding: 60px 36px;
+      border-right: none; position: relative; transition: background .35s;
+    }
+    .pillar:not(:last-child)::after {
+      content: ''; position: absolute; right: 0; top: 50%;
+      transform: translateY(-50%);
+      width: 1px; height: 40%; background: var(--obsidiana);
+    }
+    .pillar:last-child::after { display: none; }
+    .pillar:hover .pillar-title,
+    .pillar:hover .pillar-text { color: var(--obsidiana); }
+    .pillar-title {
+      font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--arena); margin-bottom: 10px;
+      font-weight: 400; text-align: center; transition: color .3s;
+    }
+    .pillar-text {
+      font-size: var(--small-size); line-height: 1.7;
+      color: rgba(242,242,240,.65); text-align: center; transition: color .3s;
+    }
+
+    /* ══════════════════════════════════════════
+       OBRAS SELECCIONADAS — C2V6 gallery, arena bg
+    ══════════════════════════════════════════ */
+    #works { background: #20261E; padding: 0; }
+    .works-header { display: none; }
+
+    .works-strip-wrap {
+      overflow: hidden;
+      height: 420px; margin: 0;
+      display: flex; align-items: stretch;
+      touch-action: pan-y;
+    }
+    .works-track {
+      display: flex; align-items: stretch; gap: 0;
+      width: max-content;
+      will-change: transform;
+      font-size: 0; line-height: 0;
+    }
+    .frame {
+      position: relative; flex: 0 0 auto; overflow: hidden;
+      height: 420px; width: 300px;
+      margin-right: -1px;
+      background: #1c1c1e; cursor: pointer; transition: opacity .3s ease;
+    }
+    .frame.wide { width: 560px; }
+    .frame.dimmed { opacity: .45; }
+    .frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* Fixed zoom overlay — never clipped */
+    #zoom-overlay {
+      position: fixed; z-index: 900;
+      pointer-events: none; overflow: hidden;
+      background: #b8b5ae;
+      box-shadow: 0 40px 120px rgba(0,0,0,.28);
+      opacity: 0;
+      transition: left .55s cubic-bezier(.16,1,.3,1),
+                  top .55s cubic-bezier(.16,1,.3,1),
+                  width .55s cubic-bezier(.16,1,.3,1),
+                  height .55s cubic-bezier(.16,1,.3,1),
+                  opacity .3s ease;
+    }
+    #zoom-overlay.active { opacity: 1; pointer-events: auto; }
+    #zoom-overlay .zoom-close {
+      position: absolute; top: 16px; right: 16px; z-index: 2;
+      width: 36px; height: 36px; border: 0; border-radius: 50%;
+      background: rgba(12,12,10,.45); color: #F2F2F0;
+      font-size: 22px; line-height: 1; cursor: pointer;
+    }
+    #zoom-overlay img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    #zoom-overlay .zoom-name {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 48px 24px 22px;
+      background: linear-gradient(transparent,rgba(12,12,10,.62));
+      font-family: 'Barlow', sans-serif; font-size: 14px; font-weight: 300;
+      letter-spacing: .24em; text-transform: uppercase;
+      color: rgba(242,242,240,0); transition: color .25s ease .2s;
+    }
+    #zoom-overlay.active .zoom-name { color: rgba(242,242,240,.9); }
+
+    /* Mobile masonry */
+    .works-masonry {
+      display: none; padding: 32px 20px 0; columns: 2; column-gap: 8px;
+    }
+    .masonry-item {
+      break-inside: avoid; margin-bottom: 8px;
+      overflow: hidden; position: relative; background: #b8b5ae;
+    }
+    .masonry-item:nth-child(odd)  { height: 200px; }
+    .masonry-item:nth-child(even) { height: 160px; }
+    .masonry-item:nth-child(3)    { height: 240px; }
+    .masonry-item:nth-child(5)    { height: 220px; }
+    .masonry-item:nth-child(8)    { height: 230px; }
+    .masonry-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .masonry-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 24px 12px 12px;
+      background: linear-gradient(transparent,rgba(12,12,10,.65));
+    }
+    .masonry-cat {
+      font-size: 8px; letter-spacing: .28em; text-transform: uppercase;
+      color: var(--lima); margin-bottom: 3px;
+    }
+    .masonry-name {
+      font-family: 'Barlow', sans-serif; font-size: 12px; font-weight: 300;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--arena);
+    }
+    .works-footer-pad { height: 0; display: none; }
+
+    /* ══════════════════════════════════════════
+       SERVICIOS — bosque-medio bg
+       Lima titles (Nunito 700) · glow hover
+       Desc: crema .55 resting → .80 hover
+    ══════════════════════════════════════════ */
+    #services { background: var(--bosque-medio); padding: 80px 56px 100px; }
+    .services-top { margin-bottom: 56px; }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 1px; background: rgba(164,174,77,.12);
+      border: 1px solid rgba(164,174,77,.12);
+    }
+    .service-card {
+      padding: 40px 28px; background: var(--bosque-medio);
+      position: relative; transition: background .45s ease;
+    }
+    .service-card:hover { background: rgba(164,174,77,.10); }
+    .service-card:hover .svc-title { color: var(--lima); }
+    .service-card:hover .svc-desc  { color: rgba(242,242,240,.80); }
+    .svc-title {
+      font-family: 'Avenir','Avenir Next','Nunito',sans-serif; font-weight: 700;
+      font-size: var(--label-size); letter-spacing: .22em; text-transform: uppercase;
+      color: var(--lima); margin-bottom: 16px; transition: color .4s;
+    }
+    .svc-desc {
+      font-size: var(--small-size); line-height: 1.85;
+      color: rgba(242,242,240,.55); transition: color .4s;
+    }
+
+    /* ══════════════════════════════════════════
+    /* ══════════════════════════════════════════
+       STATEMENT — arena bg, lima text, "obra viva" bosque
+    ══════════════════════════════════════════ */
+    .statement { background: var(--arena); padding: 80px 56px; text-align: center; }
+    .statement p {
+      font-family: 'DM Sans', sans-serif; font-weight: 500;
+      font-size: clamp(16px,1.8vw,24px); color: var(--lima);
+      line-height: 1.5; white-space: nowrap; margin: 0 auto;
+    }
+    .statement em {
+      font-style: normal; color: var(--bosque);
+    }
+
+    /* ══════════════════════════════════════════
+       NUESTRA PRÁCTICA — morado bg
+       Same font size/weight as Nosotros (homologated)
+       Contador integrated inside — same bg, tighter spacing
+    ══════════════════════════════════════════ */
+    #disclaimer {
+      padding: 112px 56px;
+      background: #20261E;
+      text-align: center;
+    }
+    #disclaimer .process-line {
+      display: block;
+      max-width: 780px;
+      margin: 0 auto 28px;
+      text-align: center;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: var(--body-size);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--lima);
+      line-height: 2;
+    }
+    #disclaimer .practice {
+      font-size: var(--body-size);
+      line-height: 2;
+      color: var(--arena);
+      font-weight: 500;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    /* Contador embedded in morado — no separate section */
+    .counters-strip {
+      background: var(--morado);
+      padding: 56px 56px 80px;
+      display: flex; flex-direction: row; flex-wrap: nowrap;
+      justify-content: center; align-items: baseline; gap: 80px;
+    }
+    .counter-item { text-align: center; flex-shrink: 0; }
+    .counter-num {
+      font-family: 'DM Sans', sans-serif; font-weight: 500;
+      font-size: clamp(44px,6vw,72px);
+      color: var(--lima); line-height: 1; display: block;
+    }
+    .counter-label {
+      font-size: var(--label-size); letter-spacing: .3em;
+      text-transform: uppercase; color: rgba(255,255,255,.45);
+      margin-top: 12px; display: block;
+    }
+
+    /* ══════════════════════════════════════════
+       CONTACTO — obsidiana bg
+       Crema .75 default → lima hover
+    ══════════════════════════════════════════ */
+    #contact {
+      background: #20261E; padding: 96px 56px;
+      display: flex; justify-content: flex-end; align-items: center;
+    }
+    .contact-right { display: flex; flex-direction: column; align-items: flex-end; }
+    .contact-data-item {
+      display: block; padding: 14px 0;
+      text-decoration: none; text-align: right;
+    }
+    .contact-data-value {
+      font-family: 'DM Sans', sans-serif; font-weight: 400;
+      font-size: 13px;
+      text-transform: uppercase; letter-spacing: .16em;
+      color: var(--arena); transition: color .3s;
+    }
+    .contact-data-item:hover .contact-data-value { color: var(--lima); }
+    .contact-data-item.no-link { cursor: default; }
+    .wa-icon {
+      display: inline-block; width: 1em; height: 1em;
+      vertical-align: middle; margin-left: 5px;
+      fill: currentColor; position: relative; top: -.05em;
+    }
+
+    /* ══════════════════════════════════════════
+       FOOTER — acero #5C7084
+    ══════════════════════════════════════════ */
+    footer {
+      background: #1C1C1E; color: rgba(242,242,240,.42);
+      padding: 36px 56px;
+      display: grid; grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      font-size: 11px; letter-spacing: .1em;
+    }
+    .footer-logo {
+      font-family: 'Avenir','Avenir Next','Nunito',sans-serif;
+      font-weight: 700; font-size: 13px; letter-spacing: .12em; color: var(--lima);
+      justify-self: center;
+    }
+    #lang-toggle { display: flex; align-items: center; gap: 6px; justify-self: end; font-family: 'DM Sans',sans-serif; font-size: 10px; font-weight: 400; letter-spacing: .24em; }
+    .lang-opt { color: rgba(242,242,240,.28); cursor: pointer; transition: color .25s; text-transform: uppercase; user-select: none; }
+    .lang-opt:hover { color: var(--lima); }
+    .lang-opt.active { color: rgba(242,242,240,.7); }
+    .lang-sep { color: rgba(242,242,240,.2); }
+
+    /* ══════════════════════════════════════════
+       SCROLL REVEAL
+    ══════════════════════════════════════════ */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .85s ease, transform .85s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: .12s; }
+    .d2 { transition-delay: .24s; }
+    .d3 { transition-delay: .36s; }
+
+    /* ══════════════════════════════════════════
+       RESPONSIVE — ≤768px / ≤480px
+    ══════════════════════════════════════════ */
+    @media (max-width: 768px) {
+      nav, nav.pinned { padding: 18px 24px; }
+      .nav-links { gap: 20px; }
+      .nav-links a { font-size: 10px; letter-spacing: .14em; }
+
+      #about { padding: 88px 24px; }
+      #about .section-tag-row { padding-top: 0; justify-content: flex-start; }
+      #about .about-center { padding-bottom: 0; }
+      .section-tag-row { margin-bottom: 48px; }
+      .about-center { max-width: 100%; }
+      .about-center h2 { font-size: clamp(12px,3.5vw,16px); margin-top: 56px; }
+
+      .pillar-row { flex-direction: column; }
+      .pillar:not(:last-child)::after { display: none; }
+      .pillar { border-bottom: 1px solid var(--obsidiana); padding: 36px 24px; }
+      .pillar:last-child { border-bottom: none; }
+
+      .works-strip-wrap { display: flex; height: 280px; margin: 0; }
+      .works-footer-pad, .works-masonry { display: none; }
+      .frame { height: 280px; width: 200px; }
+      .frame.wide { width: 320px; height: 280px; }
+      .works-header { padding: 0 20px 24px; }
+      #works { padding: 0; }
+      #contact { padding: 72px 24px; justify-content: flex-end; }
+      .contact-right { align-items: flex-end; }
+      .contact-data-item { text-align: right; }
+
+      #services { padding: 60px 24px 72px; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .service-card { padding: 28px 20px; }
+
+      .statement { padding: 60px 24px; }
+      .statement p { white-space: normal; font-size: clamp(14px,4.5vw,20px); }
+
+      #disclaimer { padding: 88px 24px; }
+
+      footer { padding: 28px 24px; display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center; }
+      .footer-logo, #lang-toggle { justify-self: center; }
+    }
+
+    @media (max-width: 480px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .counters-strip { gap: 20px; }
+      .nav-links { gap: 14px; }
+      .nav-links a { font-size: 9px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SCROLL PROGRESS -->
+<!-- ZOOM OVERLAY — lives outside all sections, never clipped -->
+<div id="zoom-overlay">
+  <button class="zoom-close" type="button" aria-label="Cerrar">×</button>
+  <img id="zoom-img" src="" alt="">
+  <div class="zoom-name" id="zoom-name"></div>
+</div>
+
+<!-- HERO — imagen estática. Para activar video: ver manual-codigo.docx §6 -->
+<section id="hero-section">
+  <div class="hero-bg" id="heroBg" style="background-image: url('hero.jpg');"></div>
+  <div class="hero-overlay"></div>
+  <nav id="nav">
+    <a href="#" class="logo">AHUEHUETE.STUDIO</a>
+    <ul class="nav-links">
+      <li><a href="#works"   data-es="Obras"      data-en="Works">Obras</a></li>
+      <li><a href="#about"   data-es="Manifiesto" data-en="Manifesto">Manifiesto</a></li>
+      <li><a href="#contact" data-es="Contacto"   data-en="Contact">Contacto</a></li>
+    </ul>
+  </nav>
+  <div class="hero-logo-wrap" id="heroLogoWrap">
+    <img class="hero-logo-img" src="logo.png" alt="AHUEHUETE.STUDIO">
+  </div>
+</section>
+
+<!-- MANIFIESTO -->
+<section id="about">
+  <div class="section-tag-row reveal">
+    <div class="section-tag" data-es="Manifiesto" data-en="Manifesto">Manifiesto</div>
+  </div>
+  <div class="about-center">
+    <p class="reveal d1"
+       data-es="Somos un estudio de paisajismo artístico con sede en la Ciudad de México. Creamos paisajes que responden al entorno, integrando naturaleza y arte para reinventar los espacios."
+       data-en="An artistic landscape studio based in Mexico City. We make landscapes that respond to their setting, bringing nature and art together to reinvent a space.">
+      Somos un estudio de paisajismo artístico con sede en la Ciudad de México. Creamos paisajes que responden al entorno, integrando naturaleza y arte para reinventar los espacios.
+    </p>
+    <h2 class="reveal d2"
+        data-es="EL JARDÍN COMO OBRA VIVA"
+        data-en="THE GARDEN AS A LIVING WORK">
+      EL JARDÍN COMO OBRA VIVA
+    </h2>
+  </div>
+</section>
+
+<!-- OBRAS SELECCIONADAS — C2V6 gallery, arena bg -->
+<section id="works">
+  <div class="works-strip-wrap" id="stripWrap">
+    <div class="works-track" id="worksTrack">
+      <div class="frame" data-name="Ahumada Villalón / 2022 / CDMX"><img src="ahumada.jpg" alt="Ahumada Villalón"></div>
+      <div class="frame" data-name="Yautepec / 2023 / CDMX"><img src="yautepec.jpg" alt="Yautepec"></div>
+      <div class="frame wide" data-name="Orza / 2024 / Valle de Bravo"><img src="orza.jpg" alt="Orza"></div>
+      <div class="frame wide" data-name="Alcázar de Toledo / 2025 / CDMX"><img src="alcazar.jpg" alt="Alcázar de Toledo"></div>
+      <div class="frame wide" data-name="Sierra Ventanas / 2026 / CDMX"><img src="sierra.jpg" alt="Sierra Ventanas"></div>
+      <div class="frame" data-name="Ahumada Villalón / 2022 / CDMX"><img src="ahumada.jpg" alt="Ahumada Villalón"></div>
+      <div class="frame" data-name="Yautepec / 2023 / CDMX"><img src="yautepec.jpg" alt="Yautepec"></div>
+      <div class="frame wide" data-name="Orza / 2024 / Valle de Bravo"><img src="orza.jpg" alt="Orza"></div>
+      <div class="frame wide" data-name="Alcázar de Toledo / 2025 / CDMX"><img src="alcazar.jpg" alt="Alcázar de Toledo"></div>
+      <div class="frame wide" data-name="Sierra Ventanas / 2026 / CDMX"><img src="sierra.jpg" alt="Sierra Ventanas"></div>
+    </div>
+  </div>
+  <div class="works-footer-pad"></div>
+
+  <!-- Mobile masonry -->
+  <div class="works-masonry">
+    <div class="masonry-item"><img src="ahumada.jpg" alt="Ahumada Villalón"><div class="masonry-label"><div class="masonry-cat">2022 · CDMX</div><div class="masonry-name">Ahumada Villalón</div></div></div>
+    <div class="masonry-item"><img src="yautepec.jpg" alt="Yautepec"><div class="masonry-label"><div class="masonry-cat">2023 · CDMX</div><div class="masonry-name">Yautepec</div></div></div>
+    <div class="masonry-item"><img src="orza.jpg" alt="Orza"><div class="masonry-label"><div class="masonry-cat">2024 · Valle de Bravo</div><div class="masonry-name">Orza</div></div></div>
+    <div class="masonry-item"><img src="alcazar.jpg" alt="Alcázar de Toledo"><div class="masonry-label"><div class="masonry-cat">2025 · CDMX</div><div class="masonry-name">Alcázar de Toledo</div></div></div>
+    <div class="masonry-item"><img src="sierra.jpg" alt="Sierra Ventanas"><div class="masonry-label"><div class="masonry-cat">2026 · CDMX</div><div class="masonry-name">Sierra Ventanas</div></div></div>
+  </div>
+</section>
+
+<!-- PRÁCTICA -->
+<section id="disclaimer">
+  <div class="process-line reveal"
+       data-es="Planeación, diseño y obra"
+       data-en="Planning, design and construction">
+    Planeación, diseño y obra
+  </div>
+  <p class="practice reveal d1"
+     data-es="Cada proyecto es una obra irrepetible. Trabajamos de manera selectiva, solo donde la visión del cliente y la nuestra convergen. Dentro y fuera de la ciudad, donde el proyecto lo requiera."
+     data-en="Each project is an unrepeatable work. We work selectively, only where the client's vision and ours converge. Inside and outside the city, wherever the project requires it.">
+    Cada proyecto es una obra irrepetible. Trabajamos de manera selectiva, solo donde la visión del cliente y la nuestra convergen. Dentro y fuera de la ciudad, donde el proyecto lo requiera.
+  </p>
+</section>
+
+<!-- CONTACTO — obsidiana bg -->
+<section id="contact">
+  <div class="contact-right reveal">
+    <a href="mailto:info@ahuehuetestudio.com" class="contact-data-item">
+      <span class="contact-data-value">info@ahuehuetestudio.com</span>
+    </a>
+    <span class="contact-data-item no-link">
+      <span class="contact-data-value">Condesa, CDMX / México</span>
+    </span>
+    <a href="https://instagram.com/ahuehuete.s" target="_blank" class="contact-data-item">
+      <span class="contact-data-value">@ahuehuete.s</span>
+    </a>
+    <a href="https://wa.me/525651373369" target="_blank" class="contact-data-item">
+      <span class="contact-data-value">+52 56 5137 3369
+        <svg class="wa-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.123 1.532 5.857L.057 23.625a.75.75 0 0 0 .918.918l5.768-1.475A11.952 11.952 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.718 9.718 0 0 1-4.951-1.357l-.355-.21-3.675.94.957-3.574-.23-.368A9.718 9.718 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/>
+        </svg>
+      </span>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span data-es="2021 · CDMX" data-en="2021 · CDMX">2021 · CDMX</span>
+  <span class="footer-logo">AHUEHUETE.STUDIO</span>
+  <div id="lang-toggle">
+    <span id="lang-es" onclick="setLang('es')" class="lang-opt active">ES</span>
+    <span class="lang-sep">|</span>
+    <span id="lang-en" onclick="setLang('en')" class="lang-opt">EN</span>
+  </div>
+</footer>
+
+<script>
+/* ── PARALLAX HERO ── */
+(function() {
+  var bg   = document.getElementById('heroBg');
+  var logo = document.getElementById('heroLogoWrap');
+  window.addEventListener('scroll', function() {
+    var sy = window.scrollY;
+    if (sy < window.innerHeight) {
+      if (bg)   bg.style.transform   = 'translateY(' + (sy * 0.35) + 'px)';
+      if (logo) logo.style.transform = 'translateY(' + (sy * 0.12) + 'px)';
+    }
+  }, { passive: true });
+})();
+
+/* ── SCROLL REVEAL ── */
+(function() {
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
+})();
+
+/* ── ANIMATED COUNTERS ── */
+(function() {
+  function animateCount(el) {
+    var target = +el.dataset.target, dur = 1800, t0 = performance.now();
+    (function step(now) {
+      var p = Math.min((now - t0) / dur, 1);
+      el.textContent = Math.round((1 - Math.pow(1 - p, 3)) * target);
+      if (p < 1) requestAnimationFrame(step); else el.textContent = target;
+    })(t0);
+  }
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) { animateCount(e.target); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.counter-num').forEach(function(n) { obs.observe(n); });
+})();
+
+/* ── REEL + ZOOM ── */
+(function() {
+  var frames = Array.from(document.querySelectorAll('.works-track .frame'));
+  var overlay = document.getElementById('zoom-overlay');
+  var zoomImg = document.getElementById('zoom-img');
+  var zoomName = document.getElementById('zoom-name');
+  if (!frames.length || !overlay) return;
+  var ZW = Math.min(Math.round(window.innerWidth * 0.82), 1100);
+  var ZH = Math.min(Math.round(window.innerHeight * 0.78), 780);
+  window.addEventListener('resize', function() {
+    ZW = Math.min(Math.round(window.innerWidth * 0.82), 1100);
+    ZH = Math.min(Math.round(window.innerHeight * 0.78), 780);
+  });
+  var active = null, leaveTimer = null;
+  function showZoom(frame) {
+    clearTimeout(leaveTimer);
+    var rect = frame.getBoundingClientRect();
+    overlay.style.transition = 'none';
+    overlay.style.left = rect.left + 'px';
+    overlay.style.top = rect.top + 'px';
+    overlay.style.width = rect.width + 'px';
+    overlay.style.height = rect.height + 'px';
+    overlay.style.opacity = '0';
+    zoomImg.src = frame.querySelector('img').src;
+    zoomName.textContent = frame.dataset.name || '';
+    overlay.offsetWidth;
+    overlay.style.transition = '';
+    overlay.style.left = ((window.innerWidth - ZW) / 2) + 'px';
+    overlay.style.top = ((window.innerHeight - ZH) / 2) + 'px';
+    overlay.style.width = ZW + 'px';
+    overlay.style.height = ZH + 'px';
+    overlay.style.opacity = '1';
+    overlay.classList.add('active');
+    frames.forEach(function(f) { if (f !== frame) f.classList.add('dimmed'); });
+    active = frame;
+  }
+  function hideZoom(frame) {
+    var rect = frame.getBoundingClientRect();
+    overlay.style.left = rect.left + 'px';
+    overlay.style.top = rect.top + 'px';
+    overlay.style.width = rect.width + 'px';
+    overlay.style.height = rect.height + 'px';
+    overlay.style.opacity = '0';
+    overlay.classList.remove('active');
+    frames.forEach(function(f) { f.classList.remove('dimmed'); });
+    leaveTimer = setTimeout(function() { active = null; }, 600);
+  }
+  frames.forEach(function(frame) {
+    frame.addEventListener('mouseenter', function() {
+      if (window.matchMedia('(hover: hover)').matches) showZoom(frame);
+    });
+    frame.addEventListener('mouseleave', function() {
+      if (window.matchMedia('(hover: hover)').matches) hideZoom(frame);
+    });
+    frame.addEventListener('click', function() {
+      if (window.matchMedia('(hover: hover)').matches) return;
+      if (dragged) return;
+      if (active === frame) hideZoom(frame);
+      else showZoom(frame);
+    });
+  });
+  overlay.addEventListener('click', function() { if (active) hideZoom(active); });
+  var track = document.getElementById('worksTrack');
+  var strip = document.getElementById('stripWrap');
+  if (!track || !strip) return;
+  var offset = 0, half = 0, hovering = false, dragging = false, dragged = false, lastX = 0;
+  function measure() { half = track.scrollWidth / 2; }
+  measure();
+  window.addEventListener('resize', measure);
+  strip.addEventListener('mouseenter', function() { hovering = true; });
+  strip.addEventListener('mouseleave', function() { hovering = false; });
+  strip.addEventListener('touchstart', function(e) {
+    dragging = true; dragged = false; hovering = true;
+    lastX = e.touches[0].clientX;
+  }, { passive: true });
+  strip.addEventListener('touchmove', function(e) {
+    var x = e.touches[0].clientX;
+    var dx = x - lastX;
+    if (Math.abs(dx) > 4) dragged = true;
+    offset -= dx;
+    lastX = x;
+  }, { passive: true });
+  strip.addEventListener('touchend', function() {
+    dragging = false;
+    hovering = false;
+    setTimeout(function() { dragged = false; }, 40);
+  });
+  var last = performance.now();
+  (function tick(now) {
+    var dt = Math.min((now - last) / 1000, 0.05);
+    last = now;
+    if (!hovering && !dragging) offset += 18 * dt;
+    if (half > 0) {
+      offset = ((offset % half) + half) % half;
+      track.style.transform = 'translateX(' + (-offset) + 'px)';
+    }
+    requestAnimationFrame(tick);
+  })(last);
+})();
+
+/* ── LANGUAGE TOGGLE ── */
+var lang = 'es';
+function setLang(l) {
+  if (l === lang) return;
+  lang = l;
+  document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+  document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+  document.documentElement.lang = lang;
+  document.title = lang === 'es'
+    ? 'AHUEHUETE.STUDIO — Paisajismo Artístico'
+    : 'AHUEHUETE.STUDIO — Artistic Landscape Design';
+  document.querySelectorAll('[data-es][data-en]').forEach(function(el) {
+    el.innerHTML = el.getAttribute('data-' + lang);
+  });
+}
+</script>
+</body>
+</html>
